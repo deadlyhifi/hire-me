@@ -1,0 +1,15 @@
+# dependencies
+/node_modules
+package-lock.json
+.vscode
+.github
+__snapshots__
+/coverage
+
+# file types
+*.svg
+*.css
+*.scss
+
+# production
+/dist
