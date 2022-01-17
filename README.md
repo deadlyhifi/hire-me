@@ -1,6 +1,7 @@
 # Decisions
 
 - The project is built using [Vite](https://vitejs.dev/) which is super fast.
+- I know it says to not worry about styling, but I added some basics uses [OpenProps](https://open-props.style/)
 
 ---
 

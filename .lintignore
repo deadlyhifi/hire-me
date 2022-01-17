@@ -8,6 +8,7 @@ __snapshots__
 
 # file types
 *.svg
+*.ico
 *.css
 *.scss
 
