@@ -10,10 +10,25 @@ type AttendanceListProps = {
 }
 
 function AttendanceList({ clients }: AttendanceListProps) {
+  const [loadCount, setLoadCount] = useState(10)
+  const [clientsToDisplay, setClientsToDisplay] = useState(
+    clients?.slice(0, loadCount)
+  )
+  if (!clients || !clientsToDisplay) {
+    return null
+  }
+
+  const hasMoreToLoad = loadCount < clients?.length
+
+  const handleLoadMore = () => {
+    setLoadCount(loadCount + 10)
+    setClientsToDisplay(clients?.slice(0, loadCount + 10))
+  }
+
   return (
     <>
       <ol>
-        {clients.map((client) => {
+        {clientsToDisplay.map((client) => {
           return (
             <li key={client.childId}>
               {client.name.fullName}
@@ -22,6 +37,11 @@ function AttendanceList({ clients }: AttendanceListProps) {
           )
         })}
       </ol>
+      {
+        <button onClick={handleLoadMore} disabled={!hasMoreToLoad}>
+          Load More.
+        </button>
+      }
     </>
   )
 }

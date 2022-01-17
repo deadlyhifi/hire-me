@@ -4,6 +4,7 @@
 - I know it says to not worry about styling, but I added some basics using [OpenProps](https://open-props.style/)
 - The AttendanceManagement component is wrapped in [react-error-boundary](https://www.npmjs.com/package/react-error-boundary) - See `src/App.tsx`. This is a re-usable components that allows a fallback component to be passed in, and also allows resetting the boundary if it is invoked (e.g. for a try again button).
 - I've recently been doing the [Epic React](https://epicreact.dev/) course so the `useAsync` and `useSafeDispatch` methods are fresh in my mind. These handle data fetching and prevention of sending data to an unmounted component.
+- Load more functionality is faked in `src/components/AttendanceList.tsx` byt putting the returned data into local state and only displaying 10 from that array. The load more button simply adds 10 to the `loadCount` to update. Mmm, basic.
 
 ---
 
