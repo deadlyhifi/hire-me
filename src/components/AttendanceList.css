@@ -1,0 +1,17 @@
+ol {
+  padding: 0;
+  margin: var(--size-fluid-3) 0;
+  list-style-position: inside;
+}
+
+li {
+  background-color: var(--gray-0);
+  padding: var(--size-fluid-1) var(--size-fluid-2);
+  border-radius: var(--radius-1);
+  margin-bottom: var(--size-fluid-1);
+  box-shadow: var(--shadow-1);
+  transition: all 0.3s ease-in-out;
+
+  display: flex;
+  justify-content: space-between;
+}
