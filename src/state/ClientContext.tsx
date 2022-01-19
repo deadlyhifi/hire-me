@@ -1,13 +1,26 @@
 import { createContext, useContext, useReducer, ReactNode } from 'react'
 import { Client } from '../utils/fetchClients'
 
-export type Action = {
+type LoadClientAction = {
   type: 'LOAD_CLIENTS'
   data: {
     clients: Client[]
     total: number
   }
 }
+type CheckinClientAction = {
+  type: 'CHECKIN_CLIENT'
+  clientId: Client['childId']
+  // time?: Date
+}
+type CheckouClientAction = {
+  type: 'CHECKOUT_CLIENT'
+  clientId: Client['childId']
+}
+export type Action =
+  | LoadClientAction
+  | CheckinClientAction
+  | CheckouClientAction
 export type Dispatch = (action: Action) => void
 export type State = {
   clients: Client[]
@@ -27,7 +40,7 @@ const defaultState: State = {
 const ClientContext = createContext<Context>(undefined)
 
 function clientReducer(state: State, action: Action) {
-  console.log(action)
+  console.log('action', action)
   switch (action.type) {
     case 'LOAD_CLIENTS': {
       const clients = [...(state.clients || []), ...action.data.clients]
@@ -42,8 +55,39 @@ function clientReducer(state: State, action: Action) {
         allLoaded,
       }
     }
+    case 'CHECKIN_CLIENT': {
+      const updatedClients = state.clients.map((client) => {
+        if (client.childId === action.clientId) {
+          return {
+            ...client,
+            checkedIn: true,
+          }
+        }
+        return client
+      })
+
+      return {
+        ...state,
+        clients: updatedClients,
+      }
+    }
+    case 'CHECKOUT_CLIENT': {
+      const updatedClients = state.clients.map((client) => {
+        if (action.clientId.includes(client.childId)) {
+          return {
+            ...client,
+            checkedIn: false,
+          }
+        }
+        return client
+      })
+      return {
+        ...state,
+        clients: updatedClients,
+      }
+    }
     default: {
-      throw new Error(`Unhandled action type: ${action.type}`)
+      throw new Error('Unhandled action type:')
     }
   }
 }

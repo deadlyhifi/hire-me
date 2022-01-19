@@ -1,7 +1,7 @@
 import { Reducer, useCallback, useReducer } from 'react'
 import useSafeDispatch from './useSafeDispatch'
 
-export type FetchStatus = 'pending' | 'rejected' | 'resolved'
+export type FetchStatus = 'idle' | 'pending' | 'rejected' | 'resolved'
 export type FetchAction<T> = {
   type: FetchStatus
   data: T
@@ -57,6 +57,7 @@ function useAsync<T>(initialState: Record<string, unknown>) {
 
   const run = useCallback(
     (promise) => {
+      console.log('dispatch pending')
       dispatch({ type: 'pending' })
       promise.then(
         (data: T) => {

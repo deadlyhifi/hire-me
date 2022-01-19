@@ -1,25 +1,28 @@
 import type { Client } from '../utils/fetchClients'
+import CheckinToggle from './CheckinToggle'
 
 import './AttendanceList.css'
 
 type AttendanceListProps = {
-  clients?: Client[]
+  clients: Client[]
   allLoaded: boolean
   loadMore: () => void
 }
 
 function AttendanceList({ clients, allLoaded, loadMore }: AttendanceListProps) {
-  if (!clients) {
-    return null
-  }
-
   return (
     <>
       <ol>
         {clients.map((client) => {
           return (
             <li key={client.childId}>
-              <span>{client.name.fullName}</span>
+              <span className={client.checkedIn ? 'checkedIn' : 'checkedOut'}>
+                {client.name.fullName}
+              </span>
+              <CheckinToggle
+                clientId={client.childId}
+                isCheckedIn={client.checkedIn}
+              />
             </li>
           )
         })}

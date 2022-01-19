@@ -13,5 +13,50 @@ li {
   transition: all 0.3s ease-in-out;
 
   display: flex;
+  gap: 2ch;
   justify-content: space-between;
+  align-items: center;
+}
+
+button {
+  min-width: 13ch;
+  padding: 0.5rem;
+  border-radius: var(--radius-3);
+  border: var(--border-size-2) solid var(--blue-3);
+  cursor: pointer;
+  background-color: var(--gray-1);
+  box-shadow: var(--shadow-1);
+  transition-property: box-shadow, background-color;
+  transition-duration: 0.2s;
+}
+
+button:hover {
+  background-color: var(--gray-2);
+  box-shadow: var(--shadow-1);
+}
+
+button:active {
+  box-shadow: inset var(--shadow-1);
+}
+
+.checkedIn::before,
+.checkedOut::before {
+  margin-right: 0.5rem;
+  display: inline-flex;
+  width: 1.2rem;
+  height: 1.2rem;
+  align-content: center;
+  border-radius: 50%;
+  justify-content: center;
+  color: white;
+  box-shadow: var(--shadow-2);
+}
+
+.checkedIn::before {
+  content: '✓';
+  background-color: var(--green-4);
+}
+.checkedOut::before {
+  content: '×';
+  background-color: var(--red-4);
 }
