@@ -40,7 +40,6 @@ const defaultState: State = {
 const ClientContext = createContext<Context>(undefined)
 
 function clientReducer(state: State, action: Action) {
-  console.log('action', action)
   switch (action.type) {
     case 'LOAD_CLIENTS': {
       const clients = [...(state.clients || []), ...action.data.clients]

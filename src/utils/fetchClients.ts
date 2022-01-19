@@ -23,7 +23,7 @@ async function fetchClients(start = 0, end = 10) {
   const dataStore = dataCache()
 
   if (dataStore) {
-    console.log('returning from cache')
+    console.info('Returning data from cache')
     return {
       total: dataStore.total,
       clients: dataStore.clients.slice(start, end),

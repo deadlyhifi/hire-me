@@ -57,7 +57,6 @@ function useAsync<T>(initialState: Record<string, unknown>) {
 
   const run = useCallback(
     (promise) => {
-      console.log('dispatch pending')
       dispatch({ type: 'pending' })
       promise.then(
         (data: T) => {
