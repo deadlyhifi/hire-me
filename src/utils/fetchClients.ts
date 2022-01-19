@@ -10,7 +10,26 @@ const tokens = {
   institutionId: import.meta.env.VITE_INSTITUTION_ID,
 }
 
-async function fetchClients() {
+const cache = new Map()
+function dataCache(data?: unknown) {
+  if (data) {
+    cache.set('cache', data)
+  }
+
+  return cache.get('cache')
+}
+
+async function fetchClients(start = 0, end = 10) {
+  const dataStore = dataCache()
+
+  if (dataStore) {
+    console.log('returning from cache')
+    return {
+      total: dataStore.total,
+      clients: dataStore.clients.slice(start, end),
+    }
+  }
+
   const response = await window.fetch(
     `https://app.famly.co/api/daycare/tablet/group?accessToken=${tokens.accessToken}&groupId=${tokens.groupId}&institutionId=${tokens.institutionId}`,
     {
@@ -24,8 +43,10 @@ async function fetchClients() {
 
   if (response.ok) {
     const clients = data.children
+    const total = data.children.length // simulate total count response in the API
     if (clients) {
-      return clients
+      dataCache({ total, clients })
+      return { total, clients: clients.slice(start, end) }
     }
 
     return Promise.reject(new Error('Unable to load data'))
