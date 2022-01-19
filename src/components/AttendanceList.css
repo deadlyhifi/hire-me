@@ -13,7 +13,8 @@ li {
   transition: all 0.3s ease-in-out;
 
   display: flex;
-  gap: 2ch;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   justify-content: space-between;
   align-items: center;
 }
@@ -59,4 +60,10 @@ button:active {
 .checkedOut::before {
   content: '×';
   background-color: var(--red-4);
+}
+
+[role='alert'] {
+  background-color: var(--red-4);
+  padding: 0.3rem;
+  border-radius: var(--radius-2);
 }

@@ -1,3 +1,4 @@
+import { useErrorHandler } from 'react-error-boundary'
 import useAsync from '../hooks/useAsync'
 import { State, useClient } from '../state/ClientContext'
 import checkinClient from '../utils/checkinClient'
@@ -14,30 +15,35 @@ function CheckinToggle({ clientId, isCheckedIn }: CheckinToggleProps) {
   const { status, run } = useAsync<State>({
     status: 'idle',
   })
+  const handleError = useErrorHandler()
 
   const runCheck = () => {
     {
       isCheckedIn
         ? run(
-            checkoutClient(clientId).then((data) => {
-              dispatch({
-                type: 'CHECKOUT_CLIENT',
-                clientId: data,
-              })
-            })
+            checkoutClient(clientId).then(
+              (data) => {
+                dispatch({
+                  type: 'CHECKOUT_CLIENT',
+                  clientId: data,
+                })
+              },
+              (error) => handleError(error)
+            )
           )
         : run(
-            checkinClient(clientId).then((data) => {
-              dispatch({
-                type: 'CHECKIN_CLIENT',
-                clientId: data,
-              })
-            })
+            checkinClient(clientId).then(
+              (data) => {
+                dispatch({
+                  type: 'CHECKIN_CLIENT',
+                  clientId: data,
+                })
+              },
+              (error) => handleError(error)
+            )
           )
     }
   }
-
-  // TODO Errorboundary
 
   return (
     <button onClick={runCheck} disabled={status === 'pending'}>
@@ -47,6 +53,22 @@ function CheckinToggle({ clientId, isCheckedIn }: CheckinToggleProps) {
         ? 'Check Out'
         : 'Check In'}
     </button>
+  )
+}
+
+export function CheckinToggleError({
+  error,
+  resetErrorBoundary,
+}: {
+  error: Error
+  resetErrorBoundary: () => void
+}) {
+  console.error('ErrorBoundary', error)
+  return (
+    <>
+      <p role="alert">Error: {error.message}</p>
+      <button onClick={resetErrorBoundary}>Try again</button>
+    </>
   )
 }
 

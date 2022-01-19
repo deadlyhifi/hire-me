@@ -1,7 +1,8 @@
 import type { Client } from '../utils/fetchClients'
-import CheckinToggle from './CheckinToggle'
+import CheckinToggle, { CheckinToggleError } from './CheckinToggle'
 
 import './AttendanceList.css'
+import { ErrorBoundary } from 'react-error-boundary'
 
 type AttendanceListProps = {
   clients: Client[]
@@ -19,10 +20,12 @@ function AttendanceList({ clients, allLoaded, loadMore }: AttendanceListProps) {
               <span className={client.checkedIn ? 'checkedIn' : 'checkedOut'}>
                 {client.name.fullName}
               </span>
-              <CheckinToggle
-                clientId={client.childId}
-                isCheckedIn={client.checkedIn}
-              />
+              <ErrorBoundary FallbackComponent={CheckinToggleError}>
+                <CheckinToggle
+                  clientId={client.childId}
+                  isCheckedIn={client.checkedIn}
+                />
+              </ErrorBoundary>
             </li>
           )
         })}
