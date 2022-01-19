@@ -1,5 +1,20 @@
 # Decisions
 
+## Refactor
+
+After my _first pass_ at this, which was time limited to 2-3 hours, I decided to spend a bit more time on it and to put into practice what I'd been learning in [Epic React](https://epicreact.dev/).
+
+- The `children` API doesn't have paging or details about the number of results, so I've faked this by created a simple cache on the first request which also states the `total` count.
+- Subsequest requests for data call it from the cache. I did this to emulate an API that doesn't return a full dataset more realistically.
+- The _child list_ still returns 10 at a time with a _load more_ button.
+- State is managed through React Context with a reducer for event handling.
+- Context contains a `next` parameter which is start point from which the next request should start.
+- Maybe as my next exercise I'll turn this into _paging_ rather than a load more.
+- Functionality is more componentised, with `src/components/CheckinToggle.tsx` in particular responsible for checking in and out and as it uses `src/hooks/useAsync.ts` with a status manager it prevents accidental multiple requests.
+- I've also added an ErrorBoundary to `CheckinToggle` to localise error to that component with the ability to _retry_ the request.
+
+## Original Notes
+
 - The project is built using [Vite](https://vitejs.dev/) which is super fast.
 - I know it says to not worry about styling, but I added some basics using [OpenProps](https://open-props.style/)
 - The AttendanceManagement component is wrapped in [react-error-boundary](https://www.npmjs.com/package/react-error-boundary) - See `src/App.tsx`. This is a re-usable components that allows a fallback component to be passed in, and also allows resetting the boundary if it is invoked (e.g. for a try again button).
